@@ -1,10 +1,11 @@
 from model.cgt import directorEnemy
-from model.cgt import mrSalaminhoBuilder
-from model.cgt import srBilugoBuilder
-from model.cgt import paulusBuilder
-from model.cgt import piruletaBuilder
-from model.cgt import reiDaCacimbinhaBuilder
-from model.cgt import leposLepusBuilder
+
+from model.cgt.builders import mrSalaminhoBuilder
+from model.cgt.builders import srBilugoBuilder
+from model.cgt.builders import paulusBuilder
+from model.cgt.builders import piruletaBuilder
+from model.cgt.builders import reiDaCacimbinhaBuilder
+from model.cgt.builders import leposLepusBuilder
 
 class EnemyFactory():
 	def __init__(self):

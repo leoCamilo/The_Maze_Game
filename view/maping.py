@@ -25,8 +25,8 @@ class Map:
 
 	__images = {
 		WALL : pygame.image.load('data/img/Wood_Block_Tall.png'),
-		WHITE_SPACE : pygame.image.load('data/img/Plain_Block.png'),
-		END_GAME : pygame.image.load('data/img/Plain_Block.png'),
+		WHITE_SPACE : pygame.image.load('data/img/Grass_Block.png'),
+		END_GAME : pygame.image.load('data/img/Grass_Block.png'),
 		__enemy_list[0] : pygame.image.load('data/img/enemies/Plain_Enemy1_Block.png'),
 		__enemy_list[1] : pygame.image.load('data/img/enemies/Plain_Enemy2_Block.png'),
 		__enemy_list[2] : pygame.image.load('data/img/enemies/Plain_Enemy3_Block.png'),

@@ -42,17 +42,17 @@ class GameControl:
 
 	def begin(self):
 		choice = self.show_menu()
-		
+
 		if choice == 'new':
 			self.start_game()
 
 		elif choice == 'continue':
 			db = DAO.Dao()
 			continueObj = db.getSaveByName(self.personagem.get_name())
-			
+
 			if continueObj != None:
 				self.maze_game.continue_game(continueObj)
-			
+
 			self.start_game()
 
 		elif choice == 'exit':
@@ -63,7 +63,7 @@ class GameControl:
 		level = "level : " + str(self.personagem.get_level())
 
 		self.maze_game.set_status_list([life, level])
-		self.maze_game.set_inventory_list(['item 1', 'item 2', 'item 3', 'item 4', 'item 5'])
+		self.maze_game.set_inventory_list(self.personagem.get_name_itens_bag())
 
 	def start_game(self):
 		self.set_person_data()
@@ -138,7 +138,7 @@ class GameControl:
 				fight.set_num_life(CONST_ENEMY, str(enemy.get_life()) + '/' + str(enemy.get_max_life()))
 				fight.set_life(CONST_ENEMY, enemy.get_percent_life())
 
-				if(self.personagem.take_damage(enemy.get_damage())):
+				if(self.personagem.take_damage(enemy.get_action())):
 					while not fight.call_animation(CONST_ANI_2):
 						pass
 
@@ -154,7 +154,7 @@ class GameControl:
 					fight.game_over()
 					self.display.end()
 					return 'lose'
-				
+
 				while not fight.call_animation(CONST_ANI_2):
 					pass
 

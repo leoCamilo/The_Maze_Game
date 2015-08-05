@@ -76,7 +76,7 @@ class Status():
 	def rem_aditional_damage(self, aditional):
 		self.aditional_damage = aditional
 	
-	def set_experience(self,xp):
+	def set_experience(self, xp):
 		self.experience = xp
 	
 	def is_alive(self):

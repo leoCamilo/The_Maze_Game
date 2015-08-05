@@ -1,0 +1,121 @@
+from view import maze
+from view import battle
+from view import screen
+from model import personagemFactory
+from model import enemyFactory
+
+def start_game():
+	display = screen.Screen()	# instancia a tela
+	display.start()
+
+	maze_game = maze.Maze(display)	# view do labirinto
+	option = maze_game.menu()
+	
+	factory_personagem = personagemFactory.PersonagemFactory()
+	personagem = factory_personagem.create_personagem("Paulinho da viola")
+
+	factory_enemy = enemyFactory.EnemyFactory()
+
+	if option == 390:
+		while True:
+			map_event = maze_game.free_walk()
+
+			if map_event[0] == 'I':	# if is a enemy event
+				fight = battle.Fight(display)
+				fight.start()
+				
+				#check enemy type and create
+				if(map_event[1] == '1'):
+					enemy = factory_enemy.create_SrBilugo()
+				elif(map_event[1] == '2'):
+					enemy = factory_enemy.create_piruleta()
+				elif(map_event[1] == '3'):
+					enemy = factory_enemy.create_rei_da_cacimbinha()
+
+				#life Personagem
+				fight.set_num_life(1, str(personagem.get_life()) +"/"+ str(personagem.get_max_life()))
+				fight.set_life(1, personagem.get_percent_life())
+				#name Personagem
+				fight.set_player_name('hero', str(personagem.get_name()) + ' (lvl '+ str(personagem.get_level()) + ')')
+				#life Enemy
+				fight.set_num_life(2, str(enemy.get_life())+"/"+str(enemy.get_max_life()))
+				fight.set_life(2, enemy.get_percent_life())
+				#name Enemy
+				fight.set_player_name('enemy', enemy.get_name())
+				#loop Battle
+				while True:
+					key_event = fight.get_event()
+		
+					if key_event == 119:	#verify key and do something - 119 = 'w'
+						#hero attack first								
+						#enemy take damage and check dead
+						if(enemy.take_damage(personagem.get_damage())):
+							if(personagem.receive_XP(enemy.get_experience_reward())): #send XP to player -- LEOZINHO SE FOR TRUE RETORNE -- SEU OTARIO VC UPOU PARA
+								#personagem.get_level() #retorna novo lvl da criança
+								pass
+
+							#add drop for player
+							drop = enemy.get_drop()
+							#IMPRIMA DROP -Item-
+							personagem.receive_item(drop)
+
+							fight.call_animation(1)	# call animation of an atack
+							#life Personagem
+							fight.set_num_life(1, str(personagem.get_life()) +"/"+ str(personagem.get_max_life()))
+							fight.set_life(1, personagem.get_percent_life())
+							#life Enemy
+							fight.set_num_life(2, "0/"+str(enemy.get_max_life()))
+							enemy = None		
+							fight.end()
+							break
+
+						while not fight.call_animation(1):	# call animation of an atack
+							pass
+
+						#enemy's Attack
+						#player take damage and check dead
+						if(personagem.take_damage(enemy.get_damage())):
+							while not fight.call_animation(2):	# call animation of an atack
+								pass
+
+							#life Personagem
+							fight.set_num_life(1, "0/"+ str(personagem.get_max_life()))
+							fight.set_life(1, 0)
+							#name Personagem
+							fight.set_player_name('hero', str(personagem.get_name()) + ' (lvl '+ str(personagem.get_level()) + ')')
+							#life Enemy
+							fight.set_num_life(2, str(enemy.get_life())+"/"+str(enemy.get_max_life()))
+							fight.set_life(2, enemy.get_percent_life())
+							#name Enemy
+							fight.set_player_name('enemy', enemy.get_name())
+
+							fight.end()
+							fight.game_over()
+							display.end()
+							pygame.quit()
+							sys.exit()
+
+						while not fight.call_animation(2):	# call animation of an atack
+							pass
+
+						#life Personagem
+						fight.set_num_life(1, str(personagem.get_life()) +"/"+ str(personagem.get_max_life()))
+						fight.set_life(1, personagem.get_percent_life())
+						#life Enemy
+						fight.set_num_life(2, str(enemy.get_life())+'/'+str(enemy.get_max_life()))
+						fight.set_life(2, enemy.get_percent_life())
+
+					if key_event == 27:
+						fight.end()
+						break
+
+			if map_event[0] == 'F':
+				maze_game.win()
+				display.end()
+				pygame.quit()
+				sys.exit()
+				break
+
+	elif option == 476:
+		print('Saindo...')
+		display.end()

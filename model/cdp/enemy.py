@@ -1,11 +1,9 @@
 from model.cdp import personagem
+from model.cdp import iaEnemy
 import random
 
-CHOICES_START = 0
-CHOICES_END = 10
-
-MISS_ATACK = 1
-RECOVER_LIFE = 2
+MISS_ATACK = "miss_attack"
+RECOVER_LIFE = "recover_life"
 
 NO_DAMAGE = 0
 
@@ -19,9 +17,10 @@ class Enemy(personagem.Personagem):
 		self.damage = 0
 		self.life_multiplier = 0
 		self.experience_reward = 0
+		self.intelligence = None
 
 	def get_action(self):	# execute a action returnig the damage taken by the player
-		choice = random.randint(CHOICES_START, CHOICES_END)
+		choice = self.intelligence.get_action()
 
 		if (choice == MISS_ATACK):
 			self.damage = NO_DAMAGE
@@ -32,18 +31,21 @@ class Enemy(personagem.Personagem):
 
 		else:
 			self.damage = self.get_damage()
-		
+
 		return self.damage
-	
+
 	def set_life_recover_mutiplier(self, life_multiplier):
 		self.life_multiplier = self.life_multiplier
 
 	def set_experience_reward(self, experience):
 		self.experience_reward = experience
 
+	def set_IA(self, IA):
+		self.intelligence = IA;
+
 	def get_experience_reward(self):
 		return self.experience_reward
-	
+
 	def get_drop(self):
 		chance = random.randint(CHANCES_START, CHANCES_END)
 
@@ -51,5 +53,5 @@ class Enemy(personagem.Personagem):
 			itens = self.get_itens_bag()
 			choice = random.randint(0, len(itens)-1)
 			return itens[choice]
-			
+
 		return None
