@@ -4,3 +4,4 @@ The Maze is a Game built in python to a college course, this game is about a lab
 The game was built using [Pygame API](http://www.pygame.org/wiki/about), a set of Python modules designed for writing games, 
 for this project was used pygame 1.9.1 and python 3.1 (pygame has restrictions with python versions)
 
+to test on Windows just execute the [.bat file](/the%20maze.bat)
